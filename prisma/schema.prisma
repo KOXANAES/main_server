@@ -27,8 +27,3 @@ enum Role {
   ADMIN
   MODERATOR
 }
-
-
-model Card {
-  id          String    @id @default(uuid())
-}
