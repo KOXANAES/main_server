@@ -1,0 +1,15 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserModel {
+  id: String!
+  username: String!
+  email: String!
+  password: String!
+  createdAt: String!
+}
+
+type Query {
+  getGQLusers: [UserModel!]!
+}
