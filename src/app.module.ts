@@ -8,6 +8,7 @@ import { UsersGqlModule } from './users-gql/users-gql.module';
 import { AuthModule } from './auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailService } from './email/email.service';
+import { AppDownloadModule } from './app-download/app-download.module';
 
 @Module({
   imports: [
@@ -38,7 +39,8 @@ import { EmailService } from './email/email.service';
     }),
     UsersModule,
     UsersGqlModule,
-    AuthModule
+    AuthModule,
+    AppDownloadModule
   ],
   controllers: [],
   providers: [EmailService],
