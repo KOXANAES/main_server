@@ -7,6 +7,7 @@ import { join } from 'path';
 export class AppDownloadController {
   @Get('androidApp')
   getFile(@Res() res: Response) {
+    console.log('Функция скачивания приложения начинает работу!`')
     const filePath = join(process.cwd(), 'dist/androidApp/app-debug.apk');
     const fileStream = createReadStream(filePath);
 
