@@ -14,4 +14,8 @@ export class CreateUserDto {
 
     @IsEnum(Role)
     role?: Role
+
+    @IsString()
+    activationLink:string
+
 }

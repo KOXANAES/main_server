@@ -7,7 +7,6 @@ import { join } from 'path';
 import { UsersGqlModule } from './users-gql/users-gql.module';
 import { AuthModule } from './auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { EmailService } from './email/email.service';
 
 @Module({
@@ -29,13 +28,6 @@ import { EmailService } from './email/email.service';
       defaults: {
         from: '"nest-modules" <koxanaes@mail.ru>',
       },
-      // template: {
-      //   dir: __dirname + '/templates',
-      //   adapter: new PugAdapter(),
-      //   options: {  
-      //     strict: true,
-      //   },
-      // },
     }),
 
 

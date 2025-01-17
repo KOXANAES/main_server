@@ -20,11 +20,12 @@ export class AuthService {
 	}
 
 	async registration(userDto: CreateUserDto) {
+		console.log(userDto)
 		const canditate = await this.userService.getUserByEmail(userDto.email)
 		if(canditate) throw new HttpException(`Пользователь ${userDto.email} уже существует!`, HttpStatus.BAD_REQUEST)
 		const hashPassword = await bcrypt.hash(userDto.password, 5)
 		const activationLink = randomUUID()
-		const user = await this.userService.createUser({...userDto, password: hashPassword, role: Role.USER})
+		const user = await this.userService.createUser({...userDto, password: hashPassword, role: Role.USER, activationLink})
 		try { 
 			console.log(userDto.email, activationLink)
 			this.emailService.sendEmail(userDto.email, activationLink)
