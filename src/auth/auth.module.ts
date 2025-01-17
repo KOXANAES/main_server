@@ -6,10 +6,11 @@ import { PrismaService } from 'src/prisma.service';
 import { UsersModule } from 'src/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersGqlModule } from 'src/users-gql/users-gql.module';
+import { EmailService } from 'src/email/email.service';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, UsersService, PrismaService],
+  providers: [AuthService, UsersService, PrismaService, EmailService],
   imports: [
     forwardRef(() => UsersModule),
     JwtModule.register({

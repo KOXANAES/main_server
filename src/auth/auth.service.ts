@@ -4,12 +4,14 @@ import { CreateUserDto } from 'src/users/user.dto';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcryptjs'
 import { Role } from '@prisma/client';
-
+import { randomUUID } from 'crypto';
+import { EmailService } from 'src/email/email.service';
 @Injectable()
 export class AuthService {
 	constructor(
 		private readonly userService: UsersService,
-		private readonly jwtService: JwtService
+		private readonly jwtService: JwtService,
+		private readonly emailService: EmailService
 	) {}
 
 	async login(userDto: CreateUserDto) {
@@ -21,11 +23,18 @@ export class AuthService {
 		const canditate = await this.userService.getUserByEmail(userDto.email)
 		if(canditate) throw new HttpException(`Пользователь ${userDto.email} уже существует!`, HttpStatus.BAD_REQUEST)
 		const hashPassword = await bcrypt.hash(userDto.password, 5)
+		const activationLink = randomUUID()
 		const user = await this.userService.createUser({...userDto, password: hashPassword, role: Role.USER})
+		try { 
+			console.log(userDto.email, activationLink)
+			this.emailService.sendEmail(userDto.email, activationLink)
+		} catch(e) { 
+			console.log(e)
+		}
 		return this.generateToken(user)
 	}
 
-	private async generateToken(user) { 
+	private async generateToken(user: any) { 
 		const payload = {email: user.email, id: user.id, role: user.role}
 		return {token: this.jwtService.sign(payload)}
 	}
