@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateUserDto } from './user.dto';
 
@@ -27,4 +27,12 @@ export class UsersService {
         const user = await this.prisma.user.findUnique({where:{email:email}})
         return user
     }
+
+    async activate(activationLink: string) { 
+		await this.prisma.user.update({
+            where: { activationLink: activationLink },
+            data: { isActivated: true },
+        });
+    }
+
 }

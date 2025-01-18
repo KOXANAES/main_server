@@ -32,17 +32,14 @@ export class EmailService implements OnModuleInit {
       await this.mailerService.sendMail({
         to,
         from: process.env.SMTP_USER,
-        subject: `activation link: ${activationLink}`,
-        // template: 'test',
+        subject: `Активация аккаунта` + process.env.CLIENT_URL,
         html: `<!DOCTYPE html>
           <html>
           <head>
               <title>Activation Link</title>
           </head>
           <body>
-              <h1>Привет, John Doe!</h1>
-              <p>Ваш код активации: cf1a3f828287</p>
-              <p>Ссылка для активации: <a href="http://example.com/activate?link=${activationLink}">Активировать</a></p>
+              <p>Ссылка для активации: <a href="${activationLink}">Активировать</a></p>
           </body>
           </html>`,
         context: {

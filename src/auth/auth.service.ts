@@ -6,12 +6,13 @@ import * as bcrypt from 'bcryptjs'
 import { Role } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { EmailService } from 'src/email/email.service';
+
 @Injectable()
 export class AuthService {
 	constructor(
 		private readonly userService: UsersService,
 		private readonly jwtService: JwtService,
-		private readonly emailService: EmailService
+		private readonly emailService: EmailService,
 	) {}
 
 	async login(userDto: CreateUserDto) {
@@ -28,7 +29,7 @@ export class AuthService {
 		const user = await this.userService.createUser({...userDto, password: hashPassword, role: Role.USER, activationLink})
 		try { 
 			console.log(userDto.email, activationLink)
-			this.emailService.sendEmail(userDto.email, activationLink)
+			this.emailService.sendEmail(userDto.email, `${process.env.API_URL}/users/activate/${activationLink}`)
 		} catch(e) { 
 			console.log(e)
 		}
