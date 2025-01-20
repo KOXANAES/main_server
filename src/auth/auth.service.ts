@@ -7,6 +7,13 @@ import { Role } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { EmailService } from 'src/email/email.service';
 
+interface userResponse {
+	username: string, 
+	email: string, 
+	isActivated: string,
+	role: string,
+}
+
 @Injectable()
 export class AuthService {
 	constructor(
@@ -17,8 +24,15 @@ export class AuthService {
 
 	async login(userDto: CreateUserDto) {
 		const user = await this.validateUser(userDto)
-		return this.generateToken(user)
-	}
+		const token = await this.generateToken(user)
+		const userResponseInfo = {
+			username: user.username,
+			email: user.email,
+			isActivated: user.isActivated,
+			role: user.role,
+		};		
+		return {userResponseInfo, token}
+		}
 
 	async registration(userDto: CreateUserDto) {
 		console.log(userDto)
@@ -33,7 +47,17 @@ export class AuthService {
 		} catch(e) { 
 			console.log(e)
 		}
-		return this.generateToken(user)
+		const token = await this.generateToken(user)
+		const userResponse = await this.createUserResponse(user)
+		return {userResponse, token}
+	}
+
+	async refresh(res: Response) { 
+		try { 
+			// const token = res.cookies
+		} catch(e) { 
+
+		}
 	}
 
 	private async generateToken(user: any) { 
@@ -47,5 +71,24 @@ export class AuthService {
 		const passwordEq = await bcrypt.compare(userDto.password, user.password)
 		if(!passwordEq) throw new UnauthorizedException('Неверный пароль!')
 		if(user && passwordEq) return user
+	}
+
+	async validateToken(token:string) {
+		try { 
+			const tokenIsValid = this.jwtService.verify(token)
+		} catch(e) { 
+			console.log(e)
+		}
+
+	}
+
+	private async createUserResponse(user: userResponse) { 
+		const userResponseInfo = {
+			username: user.username,
+			email: user.email,
+			isActivated: user.isActivated,
+			role: user.role,
+		};
+		return userResponseInfo
 	}
 }
