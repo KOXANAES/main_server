@@ -22,13 +22,13 @@ model User {
   activationLink String?  @unique
   role        Role     @default(USER)
   createdAt   DateTime @default(now())
-  refreshTokens   RefreshToken[]
+  refreshToken   RefreshToken?
 }
 
 model RefreshToken { 
   id           String   @id @default(uuid())
-  refreshToken String
-  userId       String
+  refreshToken String   @unique
+  userId       String   @unique
   user         User     @relation(fields: [userId], references: [id])
 }
 

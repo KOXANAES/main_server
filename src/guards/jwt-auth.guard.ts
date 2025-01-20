@@ -13,7 +13,7 @@ export class JwtAuthGuard implements CanActivate {
 			const tokenType = authHeader.split(' ')[0]
 			const token = authHeader.split(' ')[1]
 			if(tokenType !== 'Bearer' || !token) throw new UnauthorizedException('Пользователь не авторизован!')
-			const user = this.jwtService.verify(token)
+			const user = this.jwtService.verify(token, { secret: process.env.ACCESS_PRIVATE_KEY })
 			req.user = user 
 			return true
 		} catch(e) { 

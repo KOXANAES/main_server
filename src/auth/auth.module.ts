@@ -13,12 +13,7 @@ import { EmailService } from 'src/email/email.service';
   providers: [AuthService, UsersService, PrismaService, EmailService],
   imports: [
     forwardRef(() => UsersModule),
-    JwtModule.register({
-      secret: process.env.PRIVATE_KEY || 'wvo-93483f4g354hb',
-      signOptions: { 
-        expiresIn: '24h'
-      }
-    })
+    JwtModule.register({})
   ], 
   exports: [
     AuthService, JwtModule
