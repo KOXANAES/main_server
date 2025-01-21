@@ -11,11 +11,10 @@ export class AppDownloadController {
     const filePath = join(process.cwd(), 'dist/androidApp/app-debug.apk');
     const fileStats = statSync(filePath);
     const fileStream = createReadStream(filePath);
-
     res.set({
       'Content-Type': 'application/vnd.android.package-archive',
       'Content-Disposition': 'attachment; filename=app-debug.apk',
-      'Content-Length': fileStats.size,
+      'Content-Length': fileStats.size.toString(),
   });
 
     fileStream.pipe(res);
