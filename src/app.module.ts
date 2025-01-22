@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailService } from './email/email.service';
 import { AppDownloadModule } from './app-download/app-download.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -42,7 +43,7 @@ import { AppDownloadModule } from './app-download/app-download.module';
     AuthModule,
     AppDownloadModule
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [EmailService],
 })
 export class AppModule {}
