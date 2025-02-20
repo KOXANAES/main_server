@@ -30,4 +30,9 @@ export class UsersController {
     return res.redirect(process.env.CLIENT_URL);
   }
 
+  @Get('/test')
+  async test() {
+    console.log('hello!')
+  }
+
 }
