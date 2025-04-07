@@ -23,6 +23,10 @@ model User {
   role        Role     @default(USER)
   createdAt   DateTime @default(now())
   refreshToken   RefreshToken?
+
+  createdCards    Card[]          @relation("CardCreator")
+  inspectedCards  Card[]          @relation("CardInspector")
+
 }
 
 model RefreshToken { 
@@ -36,4 +40,86 @@ enum Role {
   USER
   ADMIN
   MODERATOR
+}
+
+model Card { 
+  id           String   @id @default(uuid())
+  isChecked    Boolean?  @default(false)
+  homeType     HomeType? @default(NOT_SPECIFIED) 
+  city         String
+  street       String
+  home         String
+  apartment    String?
+  rooms        Int?
+  apis         Int?
+  faultyapis   Int?
+  nobatteryapis Int?
+  heating      Heating?
+  ovens        Int?
+  usedovens    Int?
+  faultyovens  Int?
+  residents    Resident[]
+  category     Categories
+  nliv         Int?
+  cnchildliv   Int?
+  other        String
+  criterias    Criterias[]
+  violations   Violations[]
+  creationDate  DateTime @default(now())
+  inspectionDate  DateTime?
+  inspectionDeadline  DateTime?
+  creatorId         String
+  creator           User         @relation("CardCreator",fields: [creatorId], references: [id])
+  inspectorId       String
+  inspector   User  @relation("CardInspector",fields: [inspectorId], references: [id])
+  instructured Int?
+  isWithSocials Boolean @default(false)
+}
+
+enum Criterias { 
+  EX1
+  EX2
+  EX3
+}
+
+enum Violations { 
+  EX1
+  EX2
+  EX3
+}
+
+enum Categories { 
+  senioral
+  senioralliv
+  senioralinv
+  seniorallivinv
+  family
+  manychildfamily
+  sop
+  ovd
+}
+
+enum HomeType {
+  NOT_SPECIFIED 
+  APARTMENT
+  HOUSE
+  LODGE
+  COTTAGE
+}
+
+enum Heating { 
+  STOVE
+  CENTRAL 
+  ELECTRIC 
+  GAS
+}
+
+model Resident {
+  id        String   @id @default(uuid())
+  name      String
+  surname   String
+  paternity String?
+  birth     DateTime
+  cardId    String
+  card      Card     @relation(fields: [cardId], references: [id])
 }
