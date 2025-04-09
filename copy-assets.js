@@ -7,3 +7,4 @@ const destDir = path.join(__dirname, 'dist/androidApp');
 fs.copy(srcDir, destDir)
   .then(() => console.log('Assets copied successfully!'))
   .catch(err => console.error('Error copying assets:', err));
+

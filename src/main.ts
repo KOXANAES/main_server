@@ -2,11 +2,15 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
+import { join } from 'path';
 
 async function bootstrap() {
   const PORT = process.env.PORT || 3001;
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(cookieParser())
+  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+    prefix: '/uploads/',
+  });
   app.enableCors({
     origin: true,
     // origin: process.env.CLIENT_URL,

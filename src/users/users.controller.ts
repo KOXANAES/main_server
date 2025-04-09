@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './user.dto';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
@@ -6,6 +6,8 @@ import { Roles } from 'src/auth/roles.decorator';
 import { RolesGuard } from 'src/guards/role.guard';
 import { Role } from '@prisma/client';
 import { Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { storage } from 'src/multer/multer.config';
 
 @Controller('users')
 export class UsersController {
@@ -30,9 +32,12 @@ export class UsersController {
     return res.redirect(process.env.CLIENT_URL);
   }
 
-  @Get('/test')
-  async test() {
-    console.log('hello!')
+  @Post('addAvatar')
+  @UseInterceptors(FileInterceptor('file', { storage }))
+  async addAvatar(@UploadedFile() file: Express.Multer.File, @Body('userId') userId: string) { 
+    if (!file) throw new Error('File not uploaded')
+    const avatarUrl = `uploads/${file.filename}`
+    return this.usersService.updateAvatar(userId, avatarUrl);
   }
 
 }

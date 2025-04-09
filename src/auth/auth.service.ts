@@ -14,6 +14,7 @@ interface userResponse {
 	email: string, 
 	isActivated: boolean,
 	role: string,
+	avatar: string,
 }
 
 @Injectable()
@@ -145,6 +146,7 @@ export class AuthService {
 			email: user.email,
 			isActivated: user.isActivated,
 			role: user.role,
+			avatar: user.avatar
 		};
 		return userResponseInfo
 	}

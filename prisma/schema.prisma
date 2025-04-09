@@ -18,6 +18,7 @@ model User {
   username    String   @unique
   email       String   @unique
   password    String
+  avatar      String?
   isActivated Boolean @default(false)
   activationLink String?  @unique
   role        Role     @default(USER)

@@ -35,4 +35,18 @@ export class UsersService {
 		});
 	}
 
+	async updateAvatar(userId: string, avatarUrl: string) {
+		const user = await this.prisma.user.findUnique({
+			where: { id: userId },
+			select: { avatar: true },
+		  })
+		  if (!user) throw new Error('User not found')
+		  if (user.avatar) return 'avatar has been already uploaded'
+			return await this.prisma.user.update({
+			where: { id: userId },
+			data: { avatar: avatarUrl },
+			});
+		
+		}
+
 }
