@@ -36,7 +36,7 @@ export class UsersController {
   @UseInterceptors(FileInterceptor('file', { storage }))
   async addAvatar(@UploadedFile() file: Express.Multer.File, @Body('userId') userId: string) { 
     if (!file) throw new Error('File not uploaded')
-    const avatarUrl = `uploads/${file.filename}`
+      const avatarUrl = `uploads/avatars/users/${file.filename}`;
     return this.usersService.updateAvatar(userId, avatarUrl);
   }
 

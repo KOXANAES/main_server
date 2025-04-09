@@ -8,8 +8,11 @@ async function bootstrap() {
   const PORT = process.env.PORT || 3001;
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(cookieParser())
-  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
-    prefix: '/uploads/',
+  app.useStaticAssets(join(__dirname, '..', 'uploads', 'avatars', 'default'), {
+    prefix: '/uploads/avatars/default/',
+  });
+  app.useStaticAssets(join(__dirname, '..', 'uploads', 'avatars', 'users'), {
+    prefix: '/uploads/avatars/users/',
   });
   app.enableCors({
     origin: true,
