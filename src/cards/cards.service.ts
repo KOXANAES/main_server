@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { CreateCardDto } from './card.dto';
+import { CreateCardDto } from './dtos/createCard.dto';
+import { GetCardDto } from './dtos/getCards.dto';
 
 @Injectable()
 export class CardsService {
@@ -51,4 +52,33 @@ export class CardsService {
     
         return newCard;
     }   
+
+    async getCards() { 
+        try { 
+            const cards = await this.prisma.card.findMany({ 
+                include: {
+                    creator: { 
+                        select: {
+                            username: true
+                        }
+                    }, 
+                    inspector: { 
+                        select: { 
+                            username: true
+                        }
+                    }
+                }
+            })
+            const filteredCards: GetCardDto[] = cards.map(({ inspectorId, creatorId, creator, inspector, ...rest }) => ({ 
+                ...rest,
+                creatorUsername: creator?.username,
+                inspectorUsername: inspector?.username
+            }));
+    
+            return filteredCards;
+        } catch(e) { 
+            console.log(e)
+            throw e;
+        }
+    }
 }

@@ -1,7 +1,7 @@
     import { Categories, Criterias, Heating, HomeType, Role, Violations } from "@prisma/client"
     import { Type } from "class-transformer";
     import { IsArray, IsBoolean, IsDate, IsEnum, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator"
-    import { CreateResidentDto } from "./residents.dto";
+    import { CreateResidentDto } from "../residents.dto";
 
     export class CreateCardDto { 
 
