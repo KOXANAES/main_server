@@ -11,6 +11,7 @@ import { EmailService } from './email/email.service';
 import { AppDownloadModule } from './app-download/app-download.module';
 import { AppController } from './app.controller';
 import { CardsModule } from './cards/cards.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -43,7 +44,8 @@ import { CardsModule } from './cards/cards.module';
     UsersGqlModule,
     AuthModule,
     AppDownloadModule,
-    CardsModule
+    CardsModule,
+    AiModule
   ],
   controllers: [AppController],
   providers: [EmailService],
